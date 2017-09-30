@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Shred Generator Provisoric GUI</title>
+<link rel="stylesheet" href="shred.css">
+<script type="application/javascript" src="shredgenerator.js"></script>
+</head>
+<body>
+<div id="mainline">
+<button>color</button>
+<button onclick="generateShreds()">generate</button>
+</div>
+<br></br>
+<div id="colorline"></div>
+<div id="katalog"></div>
+<script>
+var katalog=document.getElementById("katalog");
+
+function generateShreds(){
+ //alert("generating");
+ var shred=shredgenerator();
+ katalog.textContent=JSON.stringify(shred);
+ showShreds(shred);
+}
+
+function showShreds(x){
+ katalog.innerHTML=shredSVG(x);
+}
+</script>
+</body>
+</html>
