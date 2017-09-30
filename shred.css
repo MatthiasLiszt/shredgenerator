@@ -1,0 +1,28 @@
+#katalog{
+ width: 384px;
+ height: 384px;
+ border: 2px solid grey;
+ float: left;
+}
+
+#selected{
+ width: 64px;
+ height: 64px;
+ border: 2px dotted green;
+ border-radius: 4px;
+ float: left;
+}
+
+.space{
+ width:64px;
+ height:64px;
+ float: left;
+}
+
+#colorline{
+ display: none;
+}
+
+#colorfield{
+ background-color: black;
+}

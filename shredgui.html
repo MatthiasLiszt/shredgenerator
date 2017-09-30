@@ -6,24 +6,109 @@
 </head>
 <body>
 <div id="mainline">
-<button>color</button>
-<button onclick="generateShreds()">generate</button>
+<button onclick="choseColor()">color</button>
+<button onclick="generateCatalog()">generate</button>
+</div>
+<div id="colorline">
+<button onclick="increaseRed()">red</button>
+<button onclick="increaseGreen()">green</button>
+<button onclick="increaseBlue()">blue</button>
+<button id="colorfield" onclick="colorSelected()">&nbsp;&nbsp;</button>
 </div>
 <br></br>
-<div id="colorline"></div>
 <div id="katalog"></div>
+<div class="space"></div>
+<div id="selected"></div>
 <script>
 var katalog=document.getElementById("katalog");
+var selected=document.getElementById("selected");
+var colorline=document.getElementById("colorline");
+var colorfield=document.getElementById("colorfield");
+
+var curShred=[],curShredIndex=0;
+var Color=0;
+
+function registerShred(x){
+ curShred.push(x);
+ ++curShredIndex;
+ console.log("registered "+atob(x));
+ console.log("curShred "+curShred[curShredIndex-1]);
+ selected.innerHTML=atob(x);
+}
 
 function generateShreds(){
  //alert("generating");
  var shred=shredgenerator();
  katalog.textContent=JSON.stringify(shred);
- showShreds(shred);
+ //cutOneCorner(shred); not working right now
+ var color='#'+Color.toString(16);
+ return shredSVG(shred,color);
 }
 
 function showShreds(x){
  katalog.innerHTML=shredSVG(x);
+}
+
+function generateCatalog(){
+ var Shreds=[];
+
+ Shreds.length=0; // as if memory would matter
+
+ for(var i=0;i<(6*6);++i)
+  {Shreds.push(generateShreds());}
+
+ katalog.innerHTML=Shreds.join('');
+}
+
+function increaseRed(){
+ var red=Math.round(Color/(256*256));
+ red+=16;
+ if(red>255){red=8*16;}
+ if(red<(8*16)){red=255;}
+ Color=red*256*256+(Color%(256*256));
+ var c="#"+Color.toString(16);
+ console.log("color value "+c);
+ colorfield.style.backgroundColor=c;
+}
+
+function increaseGreen(){
+ var red=Math.round(Color/(256*256));
+ var green=Math.round((Color & 255*256)/256);
+ green+=16;
+ if(red<(8*16)){red=8*16;}
+ if(red>255){red=8*16;}
+ if(green>255){green=8*16;}
+ if(green<(8*16)){green=255;}
+ Color=(red*256*256)+(green*256)+(Color%256);
+ var c="#"+Color.toString(16);
+ console.log("red "+red+" green "+green);
+ console.log("color value "+c);
+ colorfield.style.backgroundColor=c;
+}
+
+function increaseBlue(){
+ var red=Math.round(Color/(256*256));
+ var green=Math.round((Color & 255*256)/256);
+ var blue=Color%256;
+ blue+=15;
+ if(red<(8*16)){red=8*16;}
+ if(red>255){red=8*16;}
+ if(green>255){green=8*16;}
+ if(green<(8*16)){green=255;}
+ if(blue>240){blue=8*16;}
+ if(blue<(8*16)){blue=240;}
+ Color=red*256*256+green*256+blue;
+ var c="#"+Color.toString(16);
+ console.log("color value "+c);
+ colorfield.style.backgroundColor=c;
+}
+
+function colorSelected(){
+ colorline.style.display = "none";
+}
+
+function choseColor(){
+ colorline.style.display= "inline";
 }
 </script>
 </body>
